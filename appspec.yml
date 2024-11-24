@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing dependencies...
+      - pip install -r requirements.txt
+  pre_build:
+    commands:
+      - echo Running pre-build steps...
+      - python --version
+  build:
+    commands:
+      - echo Running tests...
+      - pytest --maxfail=5 --disable-warnings
+  post_build:
+    commands:
+      - echo Build and tests complete!
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: yes

@@ -3,20 +3,30 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo Installing dependencies...
+      - echo "Installing dependencies..."
+      - python -m pip install --upgrade pip
       - pip install -r requirements.txt
+
   pre_build:
     commands:
-      - echo Running pre-build steps...
+      - echo "Running pre-build steps..."
       - python --version
+      - pip --version
+
   build:
     commands:
-      - echo Running tests...
+      - echo "Running tests..."
       - pytest --maxfail=5 --disable-warnings
+
   post_build:
     commands:
-      - echo Build and tests complete!
+      - echo "Build and tests complete!"
+      - echo "Packaging artifacts..."
+      # Compress all files and directories into a zip file for deployment
+      - zip -r artifacts.zip .
+      - echo "Artifacts packaged successfully!"
+
 artifacts:
   files:
-    - "**/*"
-  discard-paths: yes
+    - artifacts.zip  # The packaged artifact file
+  discard-paths: no  # Preserve folder structure
